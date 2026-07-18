@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>極致慢活・銀杏與咖啡之旅｜東京 7 天 6 夜</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- ===================== LOADING ===================== -->
+<div id="loadingMsg">
+  <span class="leaf" style="display:inline-block;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 4 C10 8 4 16 6 26 C7.5 33 14 37 20 37 C26 37 32.5 33 34 26 C36 16 30 8 20 4 Z" stroke="#D9A441" stroke-width="2" fill="#D9A441" fill-opacity="0.85"/></svg></span>
+  <p>資料載入中…</p>
+</div>
+<div id="loadErr"><p></p></div>
+
+<!-- ===================== LOCK SCREEN ===================== -->
+<div id="lockScreen" style="display:none;">
+  <div class="lock-card">
+    <div class="leaf-row" id="lockLeaves"></div>
+    <div class="lock-eyebrow" id="lockEyebrow"></div>
+    <h1 class="lock-title" id="lockTitle"></h1>
+    <p class="lock-sub">請輸入密碼以檢視完整旅遊指引</p>
+    <div class="lock-input-wrap">
+      <input id="pwInput" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
+      <button id="unlockBtn">解鎖</button>
+    </div>
+    <div class="lock-error" id="lockError"></div>
+    <div class="lock-hint" id="lockHint"></div>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="app">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <div class="app-eyebrow" id="headerEyebrow"></div>
+      <h1 class="app-title" id="headerTitle"></h1>
+      <div class="app-dates" id="headerDates"></div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- 行程 -->
+    <div class="panel active" id="panel-itinerary">
+      <div class="day-selector" id="daySelector"></div>
+      <div id="dayThemeWrap"></div>
+      <div class="timeline" id="dayTimeline"></div>
+    </div>
+
+    <!-- 花費 -->
+    <div class="panel" id="panel-budget">
+      <div class="section-head">
+        <div class="section-eyebrow">Budget</div>
+        <h2 class="section-title">預估／實際花費</h2>
+      </div>
+      <div class="budget-summary">
+        <div class="sbox"><div class="slabel">預估總計</div><div class="sval" id="estTotal">¥0</div></div>
+        <div class="sbox total"><div class="slabel">實際總計</div><div class="sval" id="actTotal">¥0</div></div>
+      </div>
+      <div id="budgetRows"></div>
+      <button class="add-row-btn" id="addBudgetRow">＋ 新增花費項目</button>
+      <div class="data-io-row" style="margin-top:16px;">
+        <button class="io-btn primary" id="exportBudget">⬇ 匯出花費 JSON</button>
+        <label class="io-btn">⬆ 匯入花費 JSON<input type="file" id="importBudgetFile" accept="application/json"></label>
+      </div>
+      <div class="io-note">匯出的檔案可作為備份，或之後手動更新回你的 GitHub repo</div>
+    </div>
+
+    <!-- 注意事項 -->
+    <div class="panel" id="panel-notes">
+      <div class="section-head">
+        <div class="section-eyebrow">Important</div>
+        <h2 class="section-title">注意事項</h2>
+      </div>
+      <div id="notesWrap"></div>
+    </div>
+
+    <!-- 備案 -->
+    <div class="panel" id="panel-backup">
+      <div class="section-head">
+        <div class="section-eyebrow">Rain Backup</div>
+        <h2 class="section-title">☔ 備案選項</h2>
+      </div>
+      <div id="backupWrap"></div>
+    </div>
+
+    <!-- 待辦 -->
+    <div class="panel" id="panel-todo">
+      <div class="section-head">
+        <div class="section-eyebrow">Checklist</div>
+        <h2 class="section-title">待辦事項</h2>
+      </div>
+      <div class="todo-add">
+        <input id="todoInput" placeholder="新增待辦事項…">
+        <button id="todoAddBtn">＋</button>
+      </div>
+      <div id="todoList"></div>
+      <div class="data-io-row" style="margin-top:16px;">
+        <button class="io-btn primary" id="exportTodo">⬇ 匯出待辦 JSON</button>
+        <label class="io-btn">⬆ 匯入待辦 JSON<input type="file" id="importTodoFile" accept="application/json"></label>
+      </div>
+      <div class="io-note">匯出的檔案可作為備份，或之後手動更新回你的 GitHub repo</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== BOTTOM NAV ===================== -->
+<div class="bottom-nav" id="bottomNav" style="display:none;">
+  <div class="bottom-nav-inner">
+    <button class="nav-btn active" data-panel="itinerary"><span class="nicon">🗓️</span>行程</button>
+    <button class="nav-btn" data-panel="budget"><span class="nicon">💰</span>花費</button>
+    <button class="nav-btn" data-panel="notes"><span class="nicon">📌</span>注意事項</button>
+    <button class="nav-btn" data-panel="backup"><span class="nicon">☔</span>備案</button>
+    <button class="nav-btn" data-panel="todo"><span class="nicon">✅</span>待辦</button>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

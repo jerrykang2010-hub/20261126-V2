@@ -29,12 +29,12 @@ let CONFIG = null, DAYS = null, BUDGET_DEFAULT = null, NOTES = null, BACKUP = nu
 
 async function loadAllData(){
   const [config, days, budget, notes, backup, todo] = await Promise.all([
-    fetch('data/config.json').then(r=>r.json()),
-    fetch('data/itinerary.json').then(r=>r.json()),
-    fetch('data/budget.json').then(r=>r.json()),
-    fetch('data/notes.json').then(r=>r.json()),
-    fetch('data/backup.json').then(r=>r.json()),
-    fetch('data/todo-default.json').then(r=>r.json()),
+    fetch('config.json').then(r=>r.json()),
+    fetch('itinerary.json').then(r=>r.json()),
+    fetch('budget.json').then(r=>r.json()),
+    fetch('notes.json').then(r=>r.json()),
+    fetch('backup.json').then(r=>r.json()),
+    fetch('todo-default.json').then(r=>r.json()),
   ]);
   CONFIG = config; DAYS = days; BUDGET_DEFAULT = budget; NOTES = notes; BACKUP = backup; TODO_DEFAULT = todo;
 }
